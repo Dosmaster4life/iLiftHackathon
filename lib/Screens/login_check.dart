@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'navigationbottombar.dart';
 class LoginCheck extends StatefulWidget {
     const LoginCheck({Key? key}) : super(key: key);
 
@@ -9,10 +10,8 @@ class LoginCheck extends StatefulWidget {
   class _LoginCheckState extends State<LoginCheck> {
     @override
     Widget build(BuildContext context) {
-      return MaterialApp(
-        home: Scaffold(
-          body: Text("Test"),
-        ),
+      return const MaterialApp(
+        home: NavigationBottomBar(),
       );
     }
 }
