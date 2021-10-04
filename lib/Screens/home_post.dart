@@ -9,6 +9,6 @@ class home_post extends StatefulWidget {
 class _home_postState extends State<home_post> {
   @override
   Widget build(BuildContext context) {
-    return const Text("Post");
+    return const Text("Share");
   }
 }

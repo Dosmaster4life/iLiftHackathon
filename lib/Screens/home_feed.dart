@@ -9,6 +9,6 @@ class home_feed extends StatefulWidget {
 class _home_feedState extends State<home_feed> {
   @override
   Widget build(BuildContext context) {
-    return const Text("feed");
+    return const Text("See");
   }
 }
