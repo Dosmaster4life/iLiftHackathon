@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1091814624844",
+    "project_id": "i-lift-hackathon",
+    "storage_bucket": "i-lift-hackathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091814624844:android:20d089596c6df8784b6ee9",
+        "android_client_info": {
+          "package_name": "com.lift.hack.ilift"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091814624844-2930lu2gefeh8jmp795opq6sfrcfkf25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_g0HS9vRQgE4H6_2-AyqnB8uOPbg1__g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091814624844-2930lu2gefeh8jmp795opq6sfrcfkf25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
