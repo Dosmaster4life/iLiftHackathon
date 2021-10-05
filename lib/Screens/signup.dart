@@ -62,6 +62,9 @@ class _SignUpState extends State<SignUp> {
                           email: userEmail,
                           password: userPassword,
                       );
+                      
+                     // await userCredential.sendEmailVerification();
+                    //  return user.uid;
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => const NavigationBottomBar()));
                     } on FirebaseAuthException catch (e) {

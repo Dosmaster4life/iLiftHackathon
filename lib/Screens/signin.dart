@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -82,14 +84,30 @@ class _SignInState extends State<SignIn> {
           ListTile(
               title: new Center(child: Text("Create Account")),
               onTap: () => {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const SignUp())),
+              }),
+          ListTile(
+              title: Center(child: const Text("Reset Password")),
+              onTap: () => {
+    if(userEmail.isNotEmpty && userEmail.contains(".com") && userEmail.contains("@")) { // makes sure its an email address
+
+              setState(() {
+    passwordReset(userEmail);
+    }),
+      errorCode = "If that email address exist, a reset link will be sent",
+    } else {
+      setState(() {
+        errorCode = "Please enter an email address first";
+      }),
+
+    }
               })
         ],
         )
     );
   }
-
+  Future<void> passwordReset(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
   Widget build(BuildContext context) {
     return settingsList();
   }
