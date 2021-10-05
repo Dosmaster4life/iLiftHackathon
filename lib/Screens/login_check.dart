@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ilift/Screens/signin.dart';
-import 'google_signin.dart';
 import 'navigationbottombar.dart';
 import 'signin.dart';
 class LoginCheck extends StatefulWidget { // currently just loads navigation bar, will check login later

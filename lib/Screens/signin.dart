@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ilift/Screens/navigationbottombar.dart';
 import 'package:ilift/Screens/signup.dart';
-
+import 'package:ilift/Custom Widgets/hashtag.dart';
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -88,8 +88,8 @@ class _SignInState extends State<SignIn> {
                 ),
               ]),
               ListTile(
-                  title: Center(
-                      child: const Text("Forgot Password?",
+                  title: const Center(
+                      child: Text("Forgot Password?",
                           style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -113,7 +113,7 @@ class _SignInState extends State<SignIn> {
                               errorCode = "Please enter an email address first";
                             }),
                           }
-                      })
+                      }),
             ],
           ),
           Center(
@@ -141,7 +141,6 @@ class _SignInState extends State<SignIn> {
           ))
         ]));
   }
-
   Future<void> passwordReset(String email) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
