@@ -19,8 +19,21 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blue,
-      title: Text(getScreenText()),
+      backgroundColor: Colors.white,
+      elevation: 0,
+      title: Text(
+          getScreenText(),
+        style: TextStyle(
+          color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 30,fontFamily: "Verdana"
+        ),
+      ),
+      bottom:   PreferredSize (
+        preferredSize: const Size.fromHeight(4),
+        child : Container(
+          color: Colors.grey,
+          height:  1,
+        )
+      ),
     );
   }
 }

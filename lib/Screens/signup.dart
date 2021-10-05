@@ -22,7 +22,7 @@ class _SignUpState extends State<SignUp> {
           centerTitle: true,
           title: const Text('Create Account'),
         ),
-        body: Column(children: [
+        body:Stack(children: <Widget>[Column(children: [
           Text(errorCode),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -48,11 +48,10 @@ class _SignUpState extends State<SignUp> {
           ),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             ButtonTheme(
-              minWidth: MediaQuery.of(context).size.width * .82,
-              height: MediaQuery.of(context).size.height * .07,
-              child: RaisedButton(
-                  color: Theme.of(context).colorScheme.secondary,
-                  textColor: Colors.white,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28.0),
+                  ),),
                   child: const Text(
                     "Create Account",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -77,14 +76,31 @@ class _SignUpState extends State<SignUp> {
             ),
 
           ]),
-          ListTile(
-              title: new Center(child: Text("Return to Login")),
-              onTap: () => {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const SignIn())),
-              })
+
         ],
-        )
+        ),   Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                const Text(
+                  "OR",
+                  style:
+                  TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const SignIn()));
+                    },
+                    child:
+                    const Text("    Return to Sign In    ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,fontSize: 18,
+                        ))),
+              ],
+            ))])
     );
   }
   Widget build(BuildContext context) {
