@@ -1,27 +1,25 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:ilift/Screens/navigationbottombar.dart';
-import 'package:ilift/Screens/signup.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+import 'navigationbottombar.dart';
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  _SignInState createState() => _SignInState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   late String userEmail, userPassword, errorCode = "";
   final authenticate = FirebaseAuth.instance;
-
   @override
+
   Scaffold settingsList() {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
-          title: const Text('Login'),
+          title: const Text('Create Account'),
         ),
         body: Column(children: [
           Text(errorCode),
@@ -55,41 +53,35 @@ class _SignInState extends State<SignIn> {
                   color: Theme.of(context).colorScheme.secondary,
                   textColor: Colors.white,
                   child: const Text(
-                    "Login",
+                    "Create Account",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
-                    if (userEmail == null) {
-                    } else if (userPassword == null) {
-                    } else {
-                      try {
-                        UserCredential userCredential = await FirebaseAuth
-                            .instance
-                            .signInWithEmailAndPassword(
-                            email: userEmail, password: userPassword);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => const NavigationBottomBar()));
-                      } on FirebaseAuthException catch (e) {
-                        setState(() {
-                          errorCode = 'Incorrect Credentials';
-                        });
-                      }
+                    try {
+                      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                          email: userEmail,
+                          password: userPassword,
+                      );
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const NavigationBottomBar()));
+                    } on FirebaseAuthException catch (e) {
+                      setState(() {
+                        errorCode = e.code;
+                      });
                     }
                   }),
             ),
 
           ]),
           ListTile(
-              title: new Center(child: Text("Create Account")),
+              title: new Center(child: Text("Return to Login")),
               onTap: () => {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const SignUp())),
+               Navigator.pop(context),
               })
         ],
         )
     );
   }
-
   Widget build(BuildContext context) {
     return settingsList();
   }
