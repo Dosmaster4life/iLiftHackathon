@@ -84,6 +84,8 @@ class _SignInState extends State<SignIn> {
           ListTile(
               title: new Center(child: Text("Create Account")),
               onTap: () => {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const SignUp())),
               }),
           ListTile(
               title: Center(child: const Text("Reset Password")),

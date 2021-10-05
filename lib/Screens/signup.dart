@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ilift/Screens/signin.dart';
 
 import 'navigationbottombar.dart';
 class SignUp extends StatefulWidget {
@@ -62,7 +63,7 @@ class _SignUpState extends State<SignUp> {
                           email: userEmail,
                           password: userPassword,
                       );
-                      
+
                      // await userCredential.sendEmailVerification();
                     //  return user.uid;
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -79,7 +80,8 @@ class _SignUpState extends State<SignUp> {
           ListTile(
               title: new Center(child: Text("Return to Login")),
               onTap: () => {
-               Navigator.pop(context),
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const SignIn())),
               })
         ],
         )
