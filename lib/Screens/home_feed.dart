@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:share/share.dart';
+import 'package:path_provider/path_provider.dart' as syspaths;
+
 class home_feed extends StatefulWidget {
   const home_feed({Key? key}) : super(key: key);
 
@@ -31,7 +35,7 @@ class _home_feedState extends State<home_feed> {
               title: Text("#" + document['Hash']),
               subtitle: Text("#" + document['Post'],
               ),),
-          pictureData,shareRow(document)]
+          pictureData,shareRowPic(document)]
           ));
     }catch(e) {
       return Card(
@@ -46,6 +50,19 @@ class _home_feedState extends State<home_feed> {
     }
 
 
+  }
+  Row shareRowPic(DocumentSnapshot document) {
+    return Row(
+      children: [
+        TextButton(onPressed: () async {
+          Uint8List bytes = base64.decode(document['Image']);
+          final Dir = await syspaths.getTemporaryDirectory();
+          Io.File file = Io.File('${Dir.path}/data.jpg');
+          file.writeAsBytes(bytes);
+          Share.shareFiles([file.path],text: "#" + document['Hash'] + "\n" + document['Post']);
+        }, child: const Icon(Icons.ios_share))
+      ],
+    );
   }
   Row shareRow(DocumentSnapshot document) {
     return Row(
