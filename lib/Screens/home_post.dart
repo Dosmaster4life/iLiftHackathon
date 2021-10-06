@@ -52,9 +52,7 @@ class _home_postState extends State<home_post> {
             }),
       ),ElevatedButton(onPressed: () async {
         final XFile? image = await _picker.pickImage(
-            imageQuality: 30,
-            maxHeight: 400,
-            maxWidth: 150,
+            imageQuality: 50,
             source: ImageSource.gallery);
         if (image != null) {
           setState(() {
@@ -85,7 +83,10 @@ class _home_postState extends State<home_post> {
 
   }
   void sendPost() {
-    SendPost j = SendPost();
-    j.postOnline(postText,Hashtag,base64Image);
+    if(postText != "" && Hashtag != "") {
+      SendPost j = SendPost();
+      j.postOnline(postText,Hashtag,base64Image);
+    }
+
   }
 }
