@@ -11,15 +11,14 @@ class SendPost{
     var randomNum = new Random();
     return (min + randomNum.nextInt(max - min)).toString();
   }
-  Future<void> postOnline(String postTitle, String postBody,String hashTags) async {
+  Future<void> postOnline(String postBody,String hashTags, String base64Image) async {
     CollectionReference createPost = FirebaseFirestore.instance.collection("Post").doc("Approved").collection("Beta");
     String User = FirebaseAuth.instance.currentUser!.uid;
-    return createPost.doc(postTitle + User + getRandomNine()).set({
-      'Title' : postTitle,
+    return createPost.doc(hashTags + "-" + User + getRandomNine()).set({
       'Post' : postBody,
       'Hash' : hashTags,
       'Score' : 0,
-
+      'Image' : base64Image,
     },SetOptions(merge: true)).then((value) => print("Success"))
         .catchError((error) => print("Failed: $error"));
   }
