@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ilift/Custom%20Widgets/home_appbar.dart';
 import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:share/share.dart';
@@ -18,7 +19,9 @@ class _home_feedState extends State<home_feed> {
   @override
   Widget build(BuildContext context) {
    CollectionReference data = FirebaseFirestore.instance.collection('Post').doc('Approved').collection('Beta');
-    return buildStreamBuilder(data);
+   return Scaffold(
+       appBar: const HomeAppBar(index: 2),
+       body: buildStreamBuilder(data));
 
   }
   Card cardReturn(DocumentSnapshot document) {

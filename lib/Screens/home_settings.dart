@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ilift/Custom%20Widgets/home_appbar.dart';
 import 'package:ilift/Screens/signin.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,18 +33,21 @@ class _home_settingsState extends State<home_settings> {
 
   Widget build(BuildContext context) {
     getFilePath();
-    return ListView(
-      children: [
-        ListTile(
-          leading: const Icon(
-            Icons.exit_to_app,
+    return Scaffold(
+      appBar: const HomeAppBar(index: 2),
+      body: ListView(
+        children: [
+          ListTile(
+            leading: const Icon(
+              Icons.exit_to_app,
+            ),
+            onTap: () => {
+              signOut(),
+            },
+            title: Text("Log Out"),
           ),
-          onTap: () => {
-            signOut(),
-          },
-          title: Text("Log Out"),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
