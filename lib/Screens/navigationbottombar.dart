@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ilift/Custom%20Widgets/home_appbar.dart';
 import 'package:ilift/Screens/home_feed.dart';
 import 'package:ilift/Screens/home_post.dart';
 import 'package:ilift/Screens/home_settings.dart';
 import 'package:ilift/Custom Widgets/home_appbar.dart';
+import 'package:ilift/main.dart';
 class NavigationBottomBar extends StatefulWidget {
   const NavigationBottomBar({Key? key}) : super(key: key);
 
@@ -12,7 +14,7 @@ class NavigationBottomBar extends StatefulWidget {
 }
 
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
-  int currentIndex = 0;
+
   void onClick(int index) {
     setState(() {
       currentIndex = index;
@@ -26,7 +28,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   BottomNavigationBar navBar() {
     return BottomNavigationBar(items: const [
       BottomNavigationBarItem(
-          icon: Icon(Icons.home), label: ('Feed')),
+          icon: Icon(Icons.home), label: ('See')),
       BottomNavigationBarItem(
           icon: Icon(Icons.accessibility_sharp), label: ('Share')),
       BottomNavigationBarItem(
@@ -40,9 +42,9 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
     return Scaffold(
       appBar: HomeAppBar(index: currentIndex),
-      body: screenList.elementAt(currentIndex),
+      body:
+      screenList.elementAt(currentIndex),
       bottomNavigationBar: navBar(),
     );
-
   }
 }

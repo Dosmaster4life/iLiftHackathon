@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ilift/Screens/signin.dart';
-
+import 'package:page_transition/page_transition.dart';
 import 'navigationbottombar.dart';
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -65,8 +65,9 @@ class _SignUpState extends State<SignUp> {
 
                      // await userCredential.sendEmailVerification();
                     //  return user.uid;
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const NavigationBottomBar()));
+                     // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        //  builder: (context) => const NavigationBottomBar()));
+                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar()));
                     } on FirebaseAuthException catch (e) {
                       setState(() {
                         errorCode = e.code;
@@ -91,8 +92,9 @@ class _SignUpState extends State<SignUp> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const SignIn()));
+                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: SignIn()));
+                      //Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //    builder: (context) => const SignIn()));
                     },
                     child:
                     const Text("    Return to Sign In    ",

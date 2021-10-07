@@ -6,12 +6,12 @@ import 'dart:io' as Io;
 import 'dart:convert';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
-
+import 'package:ilift/main.dart';
 class home_feed extends StatefulWidget {
   const home_feed({Key? key}) : super(key: key);
 
   @override
-  _home_feedState createState() => _home_feedState();
+  _home_feedState createState() => _home_feedState() ;
 }
 
 class _home_feedState extends State<home_feed> {
@@ -73,7 +73,7 @@ class _home_feedState extends State<home_feed> {
       ],
     );
   }
-  StreamBuilder<QuerySnapshot> buildStreamBuilder(Query users) {
+  StreamBuilder<QuerySnapshot> buildStreamBuilder(Query users)  {
     return StreamBuilder<QuerySnapshot>(
       stream: users.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

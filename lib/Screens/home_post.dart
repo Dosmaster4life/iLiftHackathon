@@ -9,6 +9,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ilift/Custom%20Widgets/sendpost.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'navigationbottombar.dart';
 class home_post extends StatefulWidget {
   const home_post({Key? key}) : super(key: key);
 
@@ -38,36 +41,60 @@ class _home_postState extends State<home_post> {
               });
             }),
       ),
-      Padding(
+      buildHashtag(),Padding(
         padding: const EdgeInsets.all(8.0),
-        child: TextField(
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(hintText: "#"),
-            maxLength: 15,
-            maxLines: 1,
-            onChanged: (value) {
-              setState(() {
-                Hashtag = value.trim();
-              });
-            }),
-      ),ElevatedButton(onPressed: () async {
-        final XFile? image = await _picker.pickImage(
-            imageQuality: 50,
-            source: ImageSource.gallery);
-        if (image != null) {
-          setState(() {
-            imageFile = image.path;
-          });
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28.0),
+            ),),
+            onPressed: () async {
+          final XFile? image = await _picker.pickImage(
+              imageQuality: 50,
+              source: ImageSource.gallery);
+          if (image != null) {
+            setState(() {
+              imageFile = image.path;
+            });
 
-        }
-      }, child: Text("Upload Picture")),
-      ElevatedButton(onPressed: () {
-        sendPost();
-      }, child: Text("Submit Post")),
+
+          }
+        }, child: Text("Upload Picture")),
+      ),
+      btnSubmit(),
       waitforPicture(),
     ],
     );
 
+  }
+
+  Padding buildHashtag() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+          keyboardType: TextInputType.text,
+          decoration: const InputDecoration(hintText: "#"),
+          maxLength: 15,
+          maxLines: 1,
+          onChanged: (value) {
+            setState(() {
+              Hashtag = value.trim();
+            });
+          }),
+    );
+  }
+
+  Padding btnSubmit() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28.0),
+          ),),
+          onPressed: () {
+        sendPost();
+      showAlertDialog(context);
+      }, child: Text("Submit Post")),
+    );
   }
   Widget waitforPicture() {
     if(imageFile != "") {
@@ -88,5 +115,37 @@ class _home_postState extends State<home_post> {
       j.postOnline(postText,Hashtag,base64Image);
     }
 
+  }
+  showAlertDialog(BuildContext context) {
+
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pushReplacement( context,
+        PageRouteBuilder(
+        pageBuilder: (context, animation1, animation2) => NavigationBottomBar(),
+        transitionDuration: Duration.zero,
+      ) );
+    }
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Post Submitted!"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+
+        return alert;
+      },
+    );
   }
 }
