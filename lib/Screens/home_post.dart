@@ -7,10 +7,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ilift/Custom%20Widgets/home_appbar.dart';
 import 'package:ilift/Custom%20Widgets/sendpost.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'navigationbottombar.dart';
 class home_post extends StatefulWidget {
@@ -36,7 +38,7 @@ class _home_postState extends State<home_post> {
           child: TextField(
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(hintText: "Post"),
-              maxLength: 100,
+              maxLength: 147,
               maxLines: 3,
               onChanged: (value) {
                 setState(() {
@@ -76,6 +78,7 @@ class _home_postState extends State<home_post> {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
           keyboardType: TextInputType.text,
+          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")), ],
           decoration: const InputDecoration(hintText: "#"),
           maxLength: 15,
           maxLines: 1,
@@ -96,7 +99,7 @@ class _home_postState extends State<home_post> {
           ),),
           onPressed: () {
         sendPost();
-      showAlertDialog(context);
+
       }, child: Text("Submit Post")),
     );
   }
@@ -117,35 +120,13 @@ class _home_postState extends State<home_post> {
     if(postText != "" && Hashtag != "") {
       SendPost j = SendPost();
       j.postOnline(postText,Hashtag,base64Image);
+      Alert(
+        context: context,
+        title: "Post Submitted!",
+        buttons: [],
+      ).show();
     }
 
   }
-  showAlertDialog(BuildContext context) {
 
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.pop(context);
-    }
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Post Submitted!"),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-
-        return alert;
-      },
-    );
   }
-}

@@ -5,16 +5,30 @@ import 'package:ilift/Screens/home_feed.dart';
 import 'package:ilift/Screens/home_post.dart';
 import 'package:ilift/Screens/home_settings.dart';
 import 'package:ilift/Custom Widgets/home_appbar.dart';
+import 'package:ilift/Screens/login_check.dart';
 import 'package:ilift/main.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 class NavigationBottomBar extends StatefulWidget {
-  const NavigationBottomBar({Key? key}) : super(key: key);
+
+
+  const NavigationBottomBar({Key? key,required this.hideB}) : super(key: key);
+  final bool hideB;
+
 
   @override
+
   _NavigationBottomBarState createState() => _NavigationBottomBarState();
+
 }
 
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
+
+ void hideBarNow() {
+   hideBar = true;
+   setState(() {
+
+   });
+ }
 
 
   final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
@@ -45,30 +59,56 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       ),
     ];
   }
-  Widget build(BuildContext context) {
+  bool hideBar = false;
+  List<Widget> _Screens() {
+    return [
+      home_feed(),
+      home_post(),
+      home_settings()
+    ];
+  }
+  PersistentTabView pBuilder(context) {
+    if(hideBar == true) {
+      return PersistentTabView(
+        context,
+        hideNavigationBar: true,
+        controller: _controller,
+        screens: _Screens(),
+        items: _navItems(),
+        navBarStyle: NavBarStyle.style3,
+        // Ch
+        screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
 
-    List<Widget> _Screens() {
-      return [
-        home_feed(),
-        home_post(),
-        home_settings()
-      ];
+
+      );
+    }else {
+      return PersistentTabView(
+        context,
+        hideNavigationBar: false,
+        controller: _controller,
+        screens: _Screens(),
+        items: _navItems(),
+        navBarStyle: NavBarStyle.style3,
+        // Ch
+        screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+
+
+      );
     }
-
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      screens: _Screens(),
-      items: _navItems(),
-      navBarStyle: NavBarStyle.style3, // Ch
-      screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
-      ),
+  }
+  Widget build(BuildContext context) {
+    return pBuilder(context);
+    print("Hide Bar" + hideBar.toString());
 
 
-    );
 
   }
 }

@@ -67,7 +67,7 @@ class _SignUpState extends State<SignUp> {
                     //  return user.uid;
                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //  builder: (context) => const NavigationBottomBar()));
-                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar()));
+                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar(hideB: false)));
                     } on FirebaseAuthException catch (e) {
                       setState(() {
                         errorCode = e.code;

@@ -24,7 +24,7 @@ class LoginCheck extends StatefulWidget { // currently just loads navigation bar
    }
    List<Widget> screenList = <Widget>[ // Current Home Screens
      const SignIn(),
-     const NavigationBottomBar(),
+     const NavigationBottomBar(hideB: false),
    ];
     Widget build(BuildContext context) {
       checkSignedIn();

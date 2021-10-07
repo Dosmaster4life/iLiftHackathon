@@ -63,7 +63,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                       child: const Text(
-                        "Login",
+                        "         Login         ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {
@@ -76,7 +76,7 @@ class _SignInState extends State<SignIn> {
                                 .signInWithEmailAndPassword(
                                     email: userEmail, password: userPassword);
                           //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationBottomBar()));
-                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar()));
+                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar(hideB: false)));
 
                           } on FirebaseAuthException catch (e) {
                             setState(() {

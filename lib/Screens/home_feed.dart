@@ -77,6 +77,7 @@ class _home_feedState extends State<home_feed> {
       children: [
         TextButton(onPressed: () {
           Share.share("#" + document['Hash'] + "\n" + document['Post']);
+
         }, child: const Icon(Icons.ios_share))
       ],
     );
