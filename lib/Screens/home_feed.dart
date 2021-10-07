@@ -35,8 +35,11 @@ class _home_feedState extends State<home_feed> {
       return Card(
           child: Column( children: [
             ListTile(
-              title: Text("#" + document['Hash']),
-              subtitle: Text("#" + document['Post'],
+              title: Text(
+                  document['Hash'],
+                style: TextStyle(color : Colors.blue),
+              ),
+              subtitle: Text(document['Post'],
               ),),
           pictureData,shareRowPic(document)]
           ));
@@ -44,7 +47,9 @@ class _home_feedState extends State<home_feed> {
       return Card(
           child: Column( children: [
             ListTile(
-              title: Text("#" + document['Hash']),
+              title: Text("#" + document['Hash'],
+                style: TextStyle(color : Colors.blue),
+              ),
               subtitle: Text("#" + document['Post'],
               ),),
             shareRow(document),

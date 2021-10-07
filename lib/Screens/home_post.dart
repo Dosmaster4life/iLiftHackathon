@@ -126,11 +126,7 @@ class _home_postState extends State<home_post> {
     Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
-        Navigator.pushReplacement( context,
-        PageRouteBuilder(
-        pageBuilder: (context, animation1, animation2) => NavigationBottomBar(),
-        transitionDuration: Duration.zero,
-      ) );
+        Navigator.pop(context);
     }
     );
 
