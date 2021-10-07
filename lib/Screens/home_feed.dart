@@ -20,7 +20,7 @@ class _home_feedState extends State<home_feed> {
   Widget build(BuildContext context) {
    CollectionReference data = FirebaseFirestore.instance.collection('Post').doc('Approved').collection('Beta');
    return Scaffold(
-       appBar: const HomeAppBar(index: 2),
+       appBar: const HomeAppBar(index: 0),
        body: buildStreamBuilder(data));
 
   }
