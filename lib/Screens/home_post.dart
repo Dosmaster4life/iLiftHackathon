@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ilift/Custom%20Widgets/home_appbar.dart';
+import 'package:ilift/Custom%20Widgets/notificationservice.dart';
 import 'package:ilift/Custom%20Widgets/sendpost.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
@@ -53,6 +54,12 @@ class _home_postState extends State<home_post> {
                 borderRadius: BorderRadius.circular(28.0),
               ),),
               onPressed: () async {
+
+                Alert(
+                  context: context,
+                  title: "Post Submitted!",
+                  buttons: [],
+                ).show();
             final XFile? image = await _picker.pickImage(
                 imageQuality: 50,
                 source: ImageSource.gallery);
@@ -120,11 +127,7 @@ class _home_postState extends State<home_post> {
     if(postText != "" && Hashtag != "") {
       SendPost j = SendPost();
       j.postOnline(postText,Hashtag,base64Image);
-      Alert(
-        context: context,
-        title: "Post Submitted!",
-        buttons: [],
-      ).show();
+
     }
 
   }

@@ -13,8 +13,6 @@ class NavigationBottomBar extends StatefulWidget {
 
   const NavigationBottomBar({Key? key,required this.hideB}) : super(key: key);
   final bool hideB;
-
-
   @override
 
   _NavigationBottomBarState createState() => _NavigationBottomBarState();

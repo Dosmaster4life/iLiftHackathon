@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ilift/Custom%20Widgets/hashselector.dart';
 import 'package:ilift/Custom%20Widgets/home_appbar.dart';
+import 'package:ilift/Custom%20Widgets/notificationservice.dart';
 import 'package:ilift/Screens/login_check.dart';
 import 'package:ilift/Screens/signin.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +13,8 @@ import 'package:restart_app/restart_app.dart';
 import 'dart:io';
 import 'navigationbottombar.dart';
 import 'package:ilift/main.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 import 'navigationbottombar.dart';
 class home_settings extends StatefulWidget {
@@ -31,8 +35,14 @@ class _home_settingsState extends State<home_settings> {
     } catch (e) {}
   }
 
-  Widget build(BuildContext context) {
 
+  void initState() {
+    super.initState();
+
+    tz.initializeTimeZones();
+  }
+
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(index: 2),
       body: ListView(
