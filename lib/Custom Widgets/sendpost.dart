@@ -19,6 +19,7 @@ class SendPost{
       'Hash' : hashTags,
       'Score' : 0,
       'Image' : base64Image,
+      'creationTime' : Timestamp.now(),
     },SetOptions(merge: true)).then((value) => print("Success"))
         .catchError((error) => print("Failed: $error"));
   }

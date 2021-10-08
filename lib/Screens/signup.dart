@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ilift/Custom%20Widgets/hashselectorfirsttime.dart';
 import 'package:ilift/Screens/signin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'navigationbottombar.dart';
@@ -67,7 +68,7 @@ class _SignUpState extends State<SignUp> {
                     //  return user.uid;
                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //  builder: (context) => const NavigationBottomBar()));
-                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar(hideB: false)));
+                      Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: HashSelectorFirst()));
                     } on FirebaseAuthException catch (e) {
                       setState(() {
                         errorCode = e.code;

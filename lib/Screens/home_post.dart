@@ -2,18 +2,21 @@
 import 'dart:convert';
 import 'dart:io' as Io;
 import 'dart:math';
-
+import 'dart:html' as html;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ilift/Custom%20Widgets/home_appbar.dart';
 import 'package:ilift/Custom%20Widgets/notificationservice.dart';
 import 'package:ilift/Custom%20Widgets/sendpost.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
 
 import 'navigationbottombar.dart';
 class home_post extends StatefulWidget {
@@ -55,21 +58,19 @@ class _home_postState extends State<home_post> {
               ),),
               onPressed: () async {
 
-                Alert(
-                  context: context,
-                  title: "Post Submitted!",
-                  buttons: [],
-                ).show();
-            final XFile? image = await _picker.pickImage(
-                imageQuality: 50,
-                source: ImageSource.gallery);
-            if (image != null) {
-              setState(() {
-                imageFile = image.path;
-              });
+
+              final XFile? image = await _picker.pickImage(
+                  imageQuality: 50,
+                  source: ImageSource.gallery);
+              if (image != null) {
+                setState(() {
+                  imageFile = image.path;
+                });
+
+              }
 
 
-            }
+
           }, child: Text("Upload Picture")),
         ),
         btnSubmit(),
@@ -106,6 +107,11 @@ class _home_postState extends State<home_post> {
           ),),
           onPressed: () {
         sendPost();
+        Alert(
+          context: context,
+          title: "Post Submitted!",
+          buttons: [],
+        ).show();
 
       }, child: Text("Submit Post")),
     );
@@ -113,7 +119,7 @@ class _home_postState extends State<home_post> {
   Widget waitforPicture() {
     if(imageFile != "") {
       convertPicture();
-      return Container (child : Image.file(Io.File(imageFile)));
+      return SizedBox(child: Image.file(Io.File(imageFile)));
 
     }
     return Container();

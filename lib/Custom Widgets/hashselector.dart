@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:ilift/Screens/home_settings.dart';
+import 'package:ilift/Screens/navigationbottombar.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class HashSelector extends StatefulWidget {
@@ -43,7 +46,8 @@ class _HashSelectorState extends State<HashSelector> {
       isS = false;
     }
 
-    hashT.text = (prefs.get('hash').toString().replaceAll('[', '#')).replaceAll(']', '').replaceAll(',', '').replaceAll(' ', '');
+      hashT.text = (prefs.get('hash').toString()).replaceAll("[,","#").replaceAll(", ", "#").replaceAll("]", "").replaceAll(" ", "");
+
   }
   saveValue() async {
     if (hashT.text.contains("#")) {
@@ -51,12 +55,9 @@ class _HashSelectorState extends State<HashSelector> {
       prefs.setBool('notif', isS);
       prefs.setStringList('hash', hashT.text.split("#"));
       print(prefs.get('hash').toString());
-      Alert(
-        context: context,
-        title: "Preferences Saved!",
-        buttons: [],
-      ).show();
+
       Navigator.pop(context);
+
     }else {
       Alert(
         context: context,

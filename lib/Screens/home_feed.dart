@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:share/share.dart';
 import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:ilift/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class home_feed extends StatefulWidget {
   const home_feed({Key? key}) : super(key: key);
 
@@ -17,10 +18,30 @@ class home_feed extends StatefulWidget {
 
 class _home_feedState extends State<home_feed> {
   @override
+  List<String>? prefTags = [];
   Widget build(BuildContext context) {
+
+    loadData();
    CollectionReference data = FirebaseFirestore.instance.collection('Post').doc('Approved').collection('Beta');
    return Scaffold(
-       appBar: const HomeAppBar(index: 0),
+       appBar: AppBar(
+           backgroundColor: Colors.white,
+           elevation: 0,
+
+         title: Text("See",
+         style: TextStyle(
+             color: Colors.blue,fontWeight: FontWeight.bold,fontSize: 30,fontFamily: "Verdana"
+         ),),
+    leading: GestureDetector(
+    onTap: () { setState(() {
+
+    });},
+    child: Icon(
+    Icons.refresh_sharp,  color: Colors.blueAccent,
+      // add custom icons also
+    )
+    )
+       ),
        body: buildStreamBuilder(data));
 
   }
@@ -45,12 +66,13 @@ class _home_feedState extends State<home_feed> {
           ));
     }catch(e) {
       return Card(
+
           child: Column( children: [
             ListTile(
-              title: Text("#" + document['Hash'],
+              title: Text(document['Hash'],
                 style: TextStyle(color : Colors.blue),
               ),
-              subtitle: Text("#" + document['Post'],
+              subtitle: Text( document['Post'],
               ),),
             shareRow(document),
           ]
@@ -84,14 +106,14 @@ class _home_feedState extends State<home_feed> {
   }
   StreamBuilder<QuerySnapshot> buildStreamBuilder(Query users)  {
     return StreamBuilder<QuerySnapshot>(
-      stream: users.snapshots(),
+      stream: users.orderBy('creationTime', descending: true).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
           debugPrint("ERROR" + users.snapshots().toString());
           return Container();
         }
         if (!snapshot.hasData) {
-          return Container();
+          return Text("");
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -100,9 +122,32 @@ class _home_feedState extends State<home_feed> {
 
         return ListView(
             children: snapshot.data!.docs.map((document) {
-         return cardReturn(document);
+              try {
+                if(prefTags!.contains(document['Hash']) || prefTags!.contains(document['Null'])) {
+                  return cardReturn(document);
+                }else {
+                  return Container();
+                }
+              }catch(exception) {
+                return cardReturn(document);
+              }
+
         }).toList());
       },
     );
+  }
+  bool prefSelected = true;
+  loadData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefTags = prefs.getStringList('hash');
+      print(prefTags);
+
+    }catch(exception) {
+      prefTags = ['Null'];
+      prefSelected = false;
+    }
+
+
   }
 }

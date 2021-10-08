@@ -5,14 +5,14 @@ import 'package:ilift/Screens/navigationbottombar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-class HashSelector extends StatefulWidget {
-  const HashSelector({Key? key}) : super(key: key);
+class HashSelectorFirst extends StatefulWidget {
+  const HashSelectorFirst({Key? key}) : super(key: key);
 
   @override
-  _HashSelectorState createState() => _HashSelectorState();
+  _HashSelectorFirstState createState() => _HashSelectorFirstState();
 }
 
-class _HashSelectorState extends State<HashSelector> {
+class _HashSelectorFirstState extends State<HashSelectorFirst> {
 
   final hashT = TextEditingController();
   bool isS = false;
@@ -45,7 +45,7 @@ class _HashSelectorState extends State<HashSelector> {
       isS = false;
     }
 
-    hashT.text = (prefs.get('hash').toString().replaceAll('[', '#')).replaceAll(']', '').replaceAll(',', '').replaceAll(' ', '');
+    hashT.text =  hashT.text = (prefs.get('hash').toString()).replaceAll("[,","#").replaceAll(", ", "#").replaceAll("]", "").replaceAll(" ", "");
   }
   saveValue() async {
     if (hashT.text.contains("#")) {
@@ -53,11 +53,6 @@ class _HashSelectorState extends State<HashSelector> {
       prefs.setBool('notif', isS);
       prefs.setStringList('hash', hashT.text.split("#"));
       print(prefs.get('hash').toString());
-      Alert(
-        context: context,
-        title: "Preferences Saved!",
-        buttons: [],
-      ).show();
       Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar(hideB: false)));
     }else {
       Alert(
