@@ -14,10 +14,7 @@ class HashTag {
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(color: c)
-              )
-          )
-      ),
+                  side: BorderSide(color: c)))),
       onPressed: () {
         if (isSelected == true) {
           isSelected = false;
@@ -33,5 +30,4 @@ class HashTag {
       ),
     );
   }
-
 }

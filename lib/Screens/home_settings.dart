@@ -17,6 +17,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 import 'navigationbottombar.dart';
+
 class home_settings extends StatefulWidget {
   const home_settings({Key? key}) : super(key: key);
 
@@ -28,13 +29,10 @@ class _home_settingsState extends State<home_settings> {
   @override
   Future<void> signOut() async {
     try {
-
       await FirebaseAuth.instance.signOut(); // Signs the User Out of Firebase
       Restart.restartApp();
-
     } catch (e) {}
   }
-
 
   void initState() {
     super.initState();
@@ -62,8 +60,10 @@ class _home_settingsState extends State<home_settings> {
             ),
             onTap: () => {
               NavigationBottomBar(hideB: true),
-
-            Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: HashSelector())),
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade, child: HashSelector())),
             },
             title: Text("Content Preferences"),
           ),

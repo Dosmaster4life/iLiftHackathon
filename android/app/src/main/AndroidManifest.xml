@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lift.hack.ilift">
    <application
-        android:label="ilift"
+        android:label="Ilift"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

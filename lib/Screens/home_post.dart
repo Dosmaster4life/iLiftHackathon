@@ -1,8 +1,6 @@
-
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as Io;
-import 'dart:math';
-import 'dart:html' as html;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,12 +11,11 @@ import 'package:ilift/Custom%20Widgets/home_appbar.dart';
 import 'package:ilift/Custom%20Widgets/notificationservice.dart';
 import 'package:ilift/Custom%20Widgets/sendpost.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_web/image_picker_web.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-
 import 'navigationbottombar.dart';
+
 class home_post extends StatefulWidget {
   const home_post({Key? key}) : super(key: key);
 
@@ -32,53 +29,50 @@ class _home_postState extends State<home_post> {
   String base64Image = "";
   String postText = "";
   String Hashtag = "";
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(index: 1),
       body: ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-              keyboardType: TextInputType.text,
-              decoration: const InputDecoration(hintText: "Post"),
-              maxLength: 147,
-              maxLines: 3,
-              onChanged: (value) {
-                setState(() {
-                  postText = value.trim();
-                });
-              }),
-        ),
-        buildHashtag(),Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(28.0),
-              ),),
-              onPressed: () async {
-
-
-              final XFile? image = await _picker.pickImage(
-                  imageQuality: 50,
-                  source: ImageSource.gallery);
-              if (image != null) {
-                setState(() {
-                  imageFile = image.path;
-                });
-
-              }
-
-
-
-          }, child: Text("Upload Picture")),
-        ),
-        btnSubmit(),
-        waitforPicture(),
-      ],
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(hintText: "Post"),
+                maxLength: 147,
+                maxLines: 3,
+                onChanged: (value) {
+                  setState(() {
+                    postText = value.trim();
+                  });
+                }),
+          ),
+          buildHashtag(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28.0),
+                  ),
+                ),
+                onPressed: () async {
+                  final XFile? image = await _picker.pickImage(
+                      imageQuality: 50, source: ImageSource.gallery);
+                  if (image != null) {
+                    setState(() {
+                      imageFile = image.path;
+                    });
+                  }
+                },
+                child: Text("Upload Picture")),
+          ),
+          btnSubmit(),
+          waitforPicture(),
+        ],
       ),
     );
-
   }
 
   Padding buildHashtag() {
@@ -86,7 +80,9 @@ class _home_postState extends State<home_post> {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
           keyboardType: TextInputType.text,
-          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")), ],
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          ],
           decoration: const InputDecoration(hintText: "#"),
           maxLength: 15,
           maxLines: 1,
@@ -102,40 +98,48 @@ class _home_postState extends State<home_post> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28.0),
-          ),),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28.0),
+            ),
+          ),
           onPressed: () {
-        sendPost();
-        Alert(
-          context: context,
-          title: "Post Submitted!",
-          buttons: [],
-        ).show();
+            FocusScopeNode currentFocus = FocusScope.of(context);
 
-      }, child: Text("Submit Post")),
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+
+            sendPost();
+            Alert(
+              context: context,
+              title: "Post Submitted!",
+              buttons: [],
+            ).show();
+          },
+          child: Text("Submit Post")),
     );
   }
-  Widget waitforPicture() {
-    if(imageFile != "") {
-      convertPicture();
-      return SizedBox(child: Image.file(Io.File(imageFile)));
 
+  Widget waitforPicture() {
+    if (imageFile != "") {
+      convertPicture();
+      return SizedBox(
+          height: MediaQuery.of(context).size.height * .46,
+          child: Image.file(Io.File(imageFile)));
     }
     return Container();
   }
+
   Future<void> convertPicture() async {
     final bytesData = Io.File(imageFile).readAsBytesSync();
     base64Image = base64Encode(bytesData);
-
   }
+
   void sendPost() {
-    if(postText != "" && Hashtag != "") {
+    if (postText != "" && Hashtag != "") {
       SendPost j = SendPost();
-      j.postOnline(postText,Hashtag,base64Image);
-
+      j.postOnline(postText, Hashtag, base64Image);
     }
-
   }
-
-  }
+}

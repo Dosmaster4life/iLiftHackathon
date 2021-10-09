@@ -7,6 +7,7 @@ import 'package:ilift/Screens/navigationbottombar.dart';
 import 'package:ilift/Screens/signup.dart';
 import 'package:ilift/Custom Widgets/hashtag.dart';
 import 'package:page_transition/page_transition.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -75,9 +76,12 @@ class _SignInState extends State<SignIn> {
                                 .instance
                                 .signInWithEmailAndPassword(
                                     email: userEmail, password: userPassword);
-                          //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationBottomBar()));
-                            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: NavigationBottomBar(hideB: false)));
-
+                            //  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavigationBottomBar()));
+                            Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: NavigationBottomBar(hideB: false)));
                           } on FirebaseAuthException catch (e) {
                             setState(() {
                               errorCode = 'Incorrect Credentials';
@@ -130,18 +134,22 @@ class _SignInState extends State<SignIn> {
               ElevatedButton(
                   onPressed: () {
                     //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                     //   builder: (context) => const SignUp()));
-                    Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: SignUp()));
+                    //   builder: (context) => const SignUp()));
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade, child: SignUp()));
                   },
-                  child:
-                      Text("        Create Account        ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,fontSize: 18,
-                          ))),
+                  child: Text("        Create Account        ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ))),
             ],
           ))
         ]));
   }
+
   Future<void> passwordReset(String email) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
