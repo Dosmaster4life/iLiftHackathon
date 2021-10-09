@@ -29,10 +29,16 @@ class _HashSelectorState extends State<HashSelector> {
     super.initState();
   }
   Future<void> getDocuments() async {
+
     Random random = new Random();
     List<String> allTag = [];
     List<String> allPost = [];
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String info =  (prefs.get('hash').toString())
+        .replaceAll("[,", "#")
+        .replaceAll(", ", "#")
+        .replaceAll("]", "")
+        .replaceAll(" ", "");
 
     data.get()
         .then((QuerySnapshot querySnapshot) {
@@ -40,7 +46,7 @@ class _HashSelectorState extends State<HashSelector> {
       String test = doc["Hash"];
       String post = doc["Post"];
 
-      if (hashT.text.contains(test) && test != null) {
+      if (info.contains(test) && test != null) {
         allTag.add(test);
         allPost.add(post);
 
@@ -52,11 +58,8 @@ class _HashSelectorState extends State<HashSelector> {
     {
       int r = random.nextInt(allTag.length);
       print(r);
-      for(int i = 0; i < 60; i++) {
-
-      }
       NotificationService().ShowTimedNotification(0, allTag[r], allPost[r], 10);
-      NotificationService().showDailyNotification(1, allTag[r], allPost[r]);
+     // NotificationService().ShowTimedNotification(0, allTag[r], allPost[r], 86400);
     }
     });
 
@@ -69,7 +72,7 @@ class _HashSelectorState extends State<HashSelector> {
       value: isS,
       onChanged: (value) {
         setState(() {
-          getDocuments();
+
           isS = value;
           if(isS) {
 
@@ -163,6 +166,7 @@ class _HashSelectorState extends State<HashSelector> {
                 ),
                 onPressed: () {
                   saveValue();
+                  getDocuments();
                 },
                 child: Text("Save Preferences")),
           ),

@@ -1,6 +1,10 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ilift/Custom%20Widgets/home_appbar.dart';
+import 'package:ilift/Custom%20Widgets/notificationservice.dart';
 import 'package:ilift/Screens/home_feed.dart';
 import 'package:ilift/Screens/home_post.dart';
 import 'package:ilift/Screens/home_settings.dart';
@@ -8,6 +12,8 @@ import 'package:ilift/Custom Widgets/home_appbar.dart';
 import 'package:ilift/Screens/login_check.dart';
 import 'package:ilift/main.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationBottomBar extends StatefulWidget {
   const NavigationBottomBar({Key? key, required this.hideB}) : super(key: key);
@@ -17,10 +23,17 @@ class NavigationBottomBar extends StatefulWidget {
 }
 
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
+
+
+
+
+
+
   void hideBarNow() {
     hideBar = true;
     setState(() {});
   }
+    @override
 
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
@@ -59,6 +72,10 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   }
 
   PersistentTabView pBuilder(context) {
+    if (!hasRun) {
+      getDocuments();
+      hasRun = false;
+    }
     if (hideBar == true) {
       return PersistentTabView(
         context,
@@ -93,9 +110,65 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
       );
     }
   }
-
+  bool hasRun = false;
   Widget build(BuildContext context) {
+
     return pBuilder(context);
     print("Hide Bar" + hideBar.toString());
   }
+
+  Future<void> getDocuments() async {
+    CollectionReference data = await FirebaseFirestore.instance
+        .collection('Post')
+        .doc('Approved')
+        .collection('Beta');
+    //NotificationService().cancelAllNotifications();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? nEnabled = prefs.getBool('notif');
+    if(nEnabled == true) {
+      Random random = new Random();
+      List<String> allTag = [];
+      List<String> allPost = [];
+
+      String info =  (prefs.get('hash').toString())
+          .replaceAll("[,", "#")
+          .replaceAll(", ", "#")
+          .replaceAll("]", "")
+          .replaceAll(" ", "");
+
+      data.get()
+          .then((QuerySnapshot querySnapshot) async {
+        querySnapshot.docs.forEach((doc) {
+          String test = doc["Hash"];
+          String post = doc["Post"];
+
+          if (info.contains(test) && test != null) {
+            allTag.add(test);
+            allPost.add(post);
+
+          }
+        }
+
+        );
+        if(allTag.length > 0)
+        {
+          for(int i = 0; i < 3; i++) { // Next 3 days notifcations scheduled.
+            int r = random.nextInt(allTag.length);
+            print(r);
+            await Future.delayed(const Duration(seconds: 5), (){});
+            NotificationService().showDailyNotification(i, allTag[r], allPost[r]);
+          }
+
+
+          // NotificationService().ShowTimedNotification(0, allTag[r], allPost[r], 86400);
+        }
+      });
+
+
+      //
+
+    }
+
+  }
 }
+

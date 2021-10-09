@@ -33,7 +33,7 @@ class NotificationService {
       id,
       title,
       body,
-      RepeatInterval.everyMinute,
+      RepeatInterval.daily,
       const NotificationDetails(
         android: AndroidNotificationDetails('1', '2',
             importance: Importance.max,

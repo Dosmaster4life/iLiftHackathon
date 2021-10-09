@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as Io;
+import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,8 +15,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'navigationbottombar.dart';
 
+
+import 'navigationbottombar.dart';
+import 'dart:html';
 class home_post extends StatefulWidget {
   const home_post({Key? key}) : super(key: key);
 
@@ -29,6 +32,10 @@ class _home_postState extends State<home_post> {
   String base64Image = "";
   String postText = "";
   String Hashtag = "";
+
+
+
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,13 +65,18 @@ class _home_postState extends State<home_post> {
                   ),
                 ),
                 onPressed: () async {
-                  final XFile? image = await _picker.pickImage(
-                      imageQuality: 50, source: ImageSource.gallery);
-                  if (image != null) {
-                    setState(() {
-                      imageFile = image.path;
-                    });
+                  if(kIsWeb) {
+                    FilePicker();
+                  }else {
+                    final XFile? image = await _picker.pickImage(
+                        imageQuality: 50, source: ImageSource.gallery);
+                    if (image != null) {
+                      setState(() {
+                        imageFile = image.path;
+                      });
+                    }
                   }
+
                 },
                 child: Text("Upload Picture")),
           ),
@@ -127,6 +139,19 @@ class _home_postState extends State<home_post> {
       return SizedBox(
           height: MediaQuery.of(context).size.height * .46,
           child: Image.file(Io.File(imageFile)));
+    }else if(kIsWeb) {
+      try {
+        if(upImage != null) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * .46,
+            child: Image.memory(upImage),
+          );
+        }
+      }catch(exception) {
+        return Container();
+      }
+
+
     }
     return Container();
   }
@@ -141,5 +166,37 @@ class _home_postState extends State<home_post> {
       SendPost j = SendPost();
       j.postOnline(postText, Hashtag, base64Image);
     }
+  }
+
+
+//method to load image and update `upImage`
+
+  late Uint8List upImage;
+  FilePicker() async {
+
+    FileUploadInputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((e) {
+      // read file content as dataURL
+      final files = uploadInput.files;
+      if (files!.length == 1) {
+        final file = files[0];
+        FileReader reader =  FileReader();
+
+        reader.onLoadEnd.listen((e) {
+          setState(() {
+            upImage = reader.result as Uint8List;
+          });
+        });
+
+        reader.onError.listen((fileEvent) {
+          setState(() {
+          });
+        });
+
+        reader.readAsArrayBuffer(file);
+      }
+    });
   }
 }

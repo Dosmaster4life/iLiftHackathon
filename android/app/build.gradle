@@ -72,4 +72,7 @@ android {
     defaultConfig {
         multiDexEnabled true
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
