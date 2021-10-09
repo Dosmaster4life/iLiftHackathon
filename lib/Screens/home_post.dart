@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+//import 'dart:html'; import when compiling web and uncomment below
 import 'dart:io' as Io;
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,11 +15,7 @@ import 'package:ilift/Custom%20Widgets/sendpost.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
-
-
 import 'navigationbottombar.dart';
-import 'dart:html';
 class home_post extends StatefulWidget {
   const home_post({Key? key}) : super(key: key);
 
@@ -66,7 +63,7 @@ class _home_postState extends State<home_post> {
                 ),
                 onPressed: () async {
                   if(kIsWeb) {
-                    FilePicker();
+                //    FilePicker();
                   }else {
                     final XFile? image = await _picker.pickImage(
                         imageQuality: 50, source: ImageSource.gallery);
@@ -139,7 +136,8 @@ class _home_postState extends State<home_post> {
       return SizedBox(
           height: MediaQuery.of(context).size.height * .46,
           child: Image.file(Io.File(imageFile)));
-    }else if(kIsWeb) {
+    }
+    /*else if(kIsWeb) {
       try {
         if(upImage != null) {
           return SizedBox(
@@ -152,7 +150,7 @@ class _home_postState extends State<home_post> {
       }
 
 
-    }
+    }*/
     return Container();
   }
 
@@ -170,7 +168,7 @@ class _home_postState extends State<home_post> {
 
 
 //method to load image and update `upImage`
-
+/*
   late Uint8List upImage;
   FilePicker() async {
 
@@ -198,5 +196,5 @@ class _home_postState extends State<home_post> {
         reader.readAsArrayBuffer(file);
       }
     });
-  }
+  }*/
 }
