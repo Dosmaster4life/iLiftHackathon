@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 //import 'dart:html'; import when compiling web and uncomment below
 import 'dart:io' as Io;
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,8 +32,8 @@ class _home_postState extends State<home_post> {
 
 
 
-
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: const HomeAppBar(index: 1),
       body: ListView(
@@ -44,7 +43,7 @@ class _home_postState extends State<home_post> {
             child: TextField(
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(hintText: "Post"),
-                maxLength: 147,
+                maxLength: 150,
                 maxLines: 3,
                 onChanged: (value) {
                   setState(() {
@@ -53,6 +52,7 @@ class _home_postState extends State<home_post> {
                 }),
           ),
           buildHashtag(),
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
